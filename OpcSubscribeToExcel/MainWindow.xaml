@@ -1,0 +1,200 @@
+﻿<Window
+    x:Class="OpcSubscribeToExcel.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:OpcSubscribeToExcel"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="MainWindow"
+    Width="800"
+    Height="450"
+    mc:Ignorable="d">
+    <Window.DataContext>
+        <local:ViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="25" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Opc url::" />
+            <TextBox
+                Grid.Row="0"
+                Grid.Column="1"
+                MinWidth="150"
+                Text="{Binding Url}" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="3"
+                VerticalAlignment="Center"
+                Text=" Dest: " />
+            <TextBox
+                Grid.Row="0"
+                Grid.Column="4"
+                MinWidth="150"
+                Text="{Binding Path}" />
+            <Button
+                Grid.Row="0"
+                Grid.Column="5"
+                Command="{Binding BrowseCommand}"
+                Content="..." />
+            <Button
+                Grid.Row="0"
+                Grid.Column="6"
+                MinWidth="80"
+                Command="{Binding ConnectCommand}"
+                Content="{Binding ConnectionStatus}" />
+            <Button
+                Grid.Row="0"
+                Grid.Column="7"
+                MinWidth="80"
+                Command="{Binding StartCommand}"
+                Content="{Binding SubscribeText}" />
+        </Grid>
+        <TabControl Grid.Row="1">
+            <TabItem Header="Subscriptions">
+                <UniformGrid Rows="1">
+                    <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Items}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn />
+                            <DataGridTextColumn Binding="{Binding ItemName}" Header="ItemName" />
+                            <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
+                            <DataGridTextColumn Binding="{Binding Timestamp}" Header="Timestamp" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+
+
+                </UniformGrid>
+            </TabItem>
+            <TabItem Header="Exceptions">
+                <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding Exceptions}" />
+            </TabItem>
+            <TabItem Header="Settings">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="22" />
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        Width="80"
+                        Height="20"
+                        Margin="2,2,10,3"
+                        Text="Save cyclic" />
+                    <CheckBox
+                        Grid.Column="3"
+                        Margin="0,5"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding SaveCyclic}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Text="Cyclic time (s)"
+                        Visibility="{Binding SaveCyclic}" />
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        Width="100"
+                        Height="20"
+                        Margin="0,3,0,2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Text="{Binding CyclicTime}"
+                        Visibility="{Binding SaveCyclic}" />
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Text="Excel filename:" />
+                    <TextBox
+                        Grid.Row="2"
+                        Grid.Column="3"
+                        Width="100"
+                        Height="20"
+                        Margin="0,2,0,3"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Text="{Binding FileName}" />
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        Width="80"
+                        Height="20"
+                        Margin="2,3,10,2"
+                        VerticalAlignment="Center"
+                        Text="New file/day" />
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.RowSpan="2"
+                        Grid.Column="4"
+                        Width="235"
+                        Margin="0,12,0,268"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Text="New file gets date as extention" />
+                    <CheckBox
+                        Grid.Row="3"
+                        Grid.Column="3"
+                        Margin="0,5"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding NewFile}" />
+                    <TextBlock
+                        Grid.Row="4"
+                        Grid.Column="3"
+                        Width="120"
+                        Height="20"
+                        Margin="112,126,111,125"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="Save Config and tags" />
+                    <Button
+                        Grid.Row="4"
+                        Grid.Column="3"
+                        Width="50"
+                        Height="25"
+                        Margin="146,148,147,98"
+                        Command="{Binding SaveConfigCommand}"
+                        Content="Save" />
+                </Grid>
+
+            </TabItem>
+        </TabControl>
+        <TextBlock Grid.Row="3" Text="{Binding LastSaved}"/>
+        
+    </Grid>
+
+</Window>
